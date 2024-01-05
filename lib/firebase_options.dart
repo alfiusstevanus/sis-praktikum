@@ -23,9 +23,15 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -44,38 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDVVbMbzPC2IDN0GidecnPk0vQkA0IioB0',
-    appId: '1:947241490493:web:c29da4bfda67bfa6abb254',
-    messagingSenderId: '947241490493',
-    projectId: 'tugasbesarp',
-    authDomain: 'tugasbesarp.firebaseapp.com',
-    storageBucket: 'tugasbesarp.appspot.com',
-    measurementId: 'G-Q2E5QN00TJ',
+    apiKey: 'AIzaSyBXFCPwRFzFMOEhCIY4D9CmA9Ujry68Ypo',
+    appId: '1:759474534488:web:b5cb898afeb148e62f322d',
+    messagingSenderId: '759474534488',
+    projectId: 'sibulu-sispuas',
+    authDomain: 'sibulu-sispuas.firebaseapp.com',
+    storageBucket: 'sibulu-sispuas.appspot.com',
+    measurementId: 'G-9VH5R3XV2K',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAzkv0oHIz_22XbuU3NQXDEEopNU8nd998',
-    appId: '1:947241490493:android:b1cdb7e435297805abb254',
-    messagingSenderId: '947241490493',
-    projectId: 'tugasbesarp',
-    storageBucket: 'tugasbesarp.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBOvzgqc5_W_Xps5CGZFfRJG0Pbh_MCiAI',
-    appId: '1:947241490493:ios:d457e3f106c30896abb254',
-    messagingSenderId: '947241490493',
-    projectId: 'tugasbesarp',
-    storageBucket: 'tugasbesarp.appspot.com',
-    iosBundleId: 'com.example.tbp',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBOvzgqc5_W_Xps5CGZFfRJG0Pbh_MCiAI',
-    appId: '1:947241490493:ios:b677a271bfcf2272abb254',
-    messagingSenderId: '947241490493',
-    projectId: 'tugasbesarp',
-    storageBucket: 'tugasbesarp.appspot.com',
-    iosBundleId: 'com.example.tbp.RunnerTests',
+    apiKey: 'AIzaSyDkkhkEygFXamb87SfSBkeTpUiEJ-bmLtQ',
+    appId: '1:759474534488:android:1406c5080ef911672f322d',
+    messagingSenderId: '759474534488',
+    projectId: 'sibulu-sispuas',
+    storageBucket: 'sibulu-sispuas.appspot.com',
   );
 }

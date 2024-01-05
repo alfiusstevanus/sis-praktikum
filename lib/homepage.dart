@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tubes_prak_app/item_card.dart';
 import 'package:tubes_prak_app/login.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     bool _isSendingVerification = false;
-    
+
     var _currentIndex = 0;
     final _auth = FirebaseAuth.instance;
 
@@ -29,9 +31,24 @@ class _HomePageState extends State<HomePage> {
       super.initState();
     }
 
-    
-
     Color primaryColor = widget.useMaterial3 ? Colors.blue : Colors.blueAccent;
+
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    CollectionReference booking = firestore.collection('booking');
+
+    Future<Widget> getDataFromReference(DocumentSnapshot document) async {
+      try {
+        return ItemCard(
+          (document.data() as dynamic)['startTime']?.toString() ?? 'null',
+          (document.data() as dynamic)['endTime']?.toString() ?? 'null',
+          (document.data() as dynamic)['lapang'].toString() ?? 'null',
+          (document.data() as dynamic)['status'] ?? 'N/A',
+          document.id,
+        );
+      } catch (error) {
+        return Text('Error: $error');
+      }
+    }
 
     return Scaffold(
       body: ListView(
@@ -53,45 +70,65 @@ class _HomePageState extends State<HomePage> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 16.0),
-          Card(
-            elevation: widget.useMaterial3 ? 2.0 : 4.0,
+          const SizedBox(height: 40.0),
+          Center(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Card Content',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: primaryColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  Text(
-                    'This is the content of your card. You can customize it as needed.',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: primaryColor,
-                    ),
-                  ),
-                ],
+              padding: EdgeInsets.symmetric(horizontal: 24.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ListView(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      children: [
+                        //view data here
+                        StreamBuilder(
+                          stream: booking.snapshots(),
+                          builder: (_, snapshot) {
+                            if (snapshot.hasData) {
+                              return Column(
+                                children: snapshot.data!.docs.map((e) {
+                                  return FutureBuilder(
+                                    future: getDataFromReference(e),
+                                    builder: (_, dataSnap) {
+                                      if (dataSnap.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return CircularProgressIndicator();
+                                      } else if (dataSnap.hasError) {
+                                        return Text('Error: ${dataSnap.error}');
+                                      } else {
+                                        // Use the data to create ItemCard
+                                        return dataSnap.data as Widget;
+                                      }
+                                    },
+                                  );
+                                }).toList() as List<Widget>,
+                              );
+                            } else {
+                              return Text('Loading');
+                            }
+                          },
+                        )
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           ),
-          const SizedBox(height: 16.0),
+          const SizedBox(height: 10.0),
           ElevatedButton(
             onPressed: () {
               //* Button Action
+              Navigator.pushReplacementNamed(context, 'booking');
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: primaryColor,
             ),
-            child: const Text('Click Me'),
+            child: const Text('Book Now'),
           ),
-          const SizedBox(height: 4.0),
+          const SizedBox(height: 10.0),
           const Divider(
             height: 16,
             thickness: 0.5,
