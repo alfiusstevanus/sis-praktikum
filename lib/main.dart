@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:tubes_prak_app/booking.dart';
+import 'package:tubes_prak_app/homepage.dart';
 
 import 'package:tubes_prak_app/login.dart';
+import 'package:tubes_prak_app/nav_bar.dart';
 import 'package:tubes_prak_app/splashscreen.dart';
+import 'package:tubes_prak_app/tabel_peminjaman.dart';
+import 'package:tubes_prak_app/update.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -21,7 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Authentication',
+      title: 'Si Bulu',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.light,
@@ -44,6 +49,12 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: SplashScreen(),
+      routes: {
+        'booking': (context) => Booking(),
+        'home': (context) => NavbarDemo(),
+        'update': (context) => UpdateBulu(),
+        'peminjaman': (context) => TabelPeminjaman(),
+      },
     );
   }
 }
