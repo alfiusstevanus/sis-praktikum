@@ -31,8 +31,8 @@ class UpdateBuluState extends State<UpdateBulu> {
 
     // Set initial values from arguments
     if (args != null) {
-      lapangController.text = args['lapang'] ?? '';
-      statusController.text = args['status'] ?? '';
+      selectedLapang = args['lapang'] ?? '';
+      selectedStatus = args['status'] ?? '';
       startTimeController.text = args['startTime'] ?? '';
       endTimeController.text = args['endTime'] ?? '';
     }
