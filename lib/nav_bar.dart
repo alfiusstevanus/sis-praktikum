@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tubes_prak_app/homepage.dart';
 import 'package:tubes_prak_app/login.dart';
+import 'package:tubes_prak_app/peminjaman.dart';
+import 'package:tubes_prak_app/tabel_peminjaman.dart';
 
 class NavbarDemo extends StatefulWidget {
   const NavbarDemo({Key? key, this.useMaterial3 = false}) : super(key: key);
@@ -163,7 +165,7 @@ class _NavbarDemoState extends State<NavbarDemo> {
       case 1:
       // return Search();
       case 2:
-      // return Borrow();
+        return TabelPeminjaman();
       default:
         return Container();
     }

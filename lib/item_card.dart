@@ -15,6 +15,7 @@ class ItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     CollectionReference booking = firestore.collection('booking');
+
     return Container(
       width: double.infinity,
       margin:
@@ -51,54 +52,66 @@ class ItemCard extends StatelessWidget {
               ),
               Row(
                 children: [
-                  SizedBox(
-                    height: 40,
-                    width: 60,
-                    child: ElevatedButton(
-                      child: const Center(
-                          child: Icon(
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: Size(60, 40),
+                    ),
+                    child: const Center(
+                      child: Icon(
                         Icons.edit,
                         color: Colors.white,
-                      )),
-                      onPressed: () {
-                        //edit
-                      },
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                      height: 40,
-                      width: 60,
-                      child: ElevatedButton(
-                        child: const Center(
-                            child: Icon(Icons.delete, color: Colors.white)),
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: const Text("Warning"),
-                                  content: const Text("Remove this data?"),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      child: const Text("CANCEL"),
-                                      onPressed: () {
-                                        //delete
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                    TextButton(
-                                      child: const Text("Remove"),
-                                      onPressed: () {
-                                        booking.doc(documentId).delete();
-                                        Navigator.of(context).pop();
-                                      },
-                                    )
-                                  ],
-                                );
-                              });
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        'update',
+                        arguments: {
+                          'lapang': lapang,
+                          'status': status,
+                          'startTime': startTime,
+                          'endTime': endTime,
+                          'documentId': documentId,
                         },
-                      )),
+                      );
+                    },
+                  ),
+                  SizedBox(width: 10),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: Size(60, 40),
+                    ),
+                    child: const Center(
+                      child: Icon(Icons.delete, color: Colors.white),
+                    ),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text("Warning"),
+                            content: const Text("Remove this data?"),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text("CANCEL"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              TextButton(
+                                child: const Text("Remove"),
+                                onPressed: () {
+                                  booking.doc(documentId).delete();
+                                  Navigator.of(context).pop();
+                                },
+                              )
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ],
               ),
             ],
