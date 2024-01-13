@@ -54,6 +54,16 @@ class _HomePageState extends State<HomePage> {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
+          IconButton(
+            alignment: Alignment.topRight,
+            icon: Icon(Icons.search),
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: BookingSearchDelegate(),
+              );
+            },
+          ),
           Text(
             'Si Bulu',
             style: TextStyle(
@@ -69,15 +79,6 @@ class _HomePageState extends State<HomePage> {
               color: primaryColor,
               fontWeight: FontWeight.bold,
             ),
-          ),
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: BookingSearchDelegate(),
-              );
-            },
           ),
           const SizedBox(height: 40.0),
           Center(
