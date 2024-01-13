@@ -78,8 +78,8 @@ class _NavbarDemoState extends State<NavbarDemo> {
         child: ListView(
           children: <Widget>[
             UserAccountsDrawerHeader(
-              accountName: Text("James Ronald"),
-              accountEmail: Text("jamesronald@itenas.ac.id"),
+              accountName: Text("acengfikri"),
+              accountEmail: Text("aceng@gmail.com"),
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.white,
                 child: Icon(Icons.person),
