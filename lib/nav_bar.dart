@@ -101,7 +101,7 @@ class _NavbarDemoState extends State<NavbarDemo> {
               title: Text('Borrow'),
               onTap: () {
                 Navigator.pop(context); // Tutup drawer
-                _onBottomNavItemTapped(2);
+                _onBottomNavItemTapped(1);
               },
             ),
             Padding(
