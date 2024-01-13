@@ -70,6 +70,22 @@ class _HomePageState extends State<HomePage> {
               fontWeight: FontWeight.bold,
             ),
           ),
+          Text(
+            'Search',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.normal,
+            ),
+          ),
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: BookingSearchDelegate(),
+              );
+            },
+          ),
           const SizedBox(height: 40.0),
           Center(
             child: Padding(
@@ -138,6 +154,113 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class BookingSearchDelegate extends SearchDelegate<String> {
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final CollectionReference booking =
+      FirebaseFirestore.instance.collection('booking');
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        onPressed: () {
+          query = '';
+        },
+        icon: const Icon(Icons.clear),
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        close(context, '');
+      },
+      icon: const Icon(Icons.arrow_back),
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    if (query.isEmpty) {
+      return Center(child: Text('Please enter a search query'));
+    }
+
+    return FutureBuilder(
+      future: booking.where('lapang', isEqualTo: query).get(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
+
+        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          return Center(child: Text('No results found'));
+        }
+
+        return ListView(
+          children: snapshot.data!.docs.map((e) {
+            return GestureDetector(
+              child: ItemCard(
+                (e.data() as dynamic)['startTime']?.toString() ?? 'null',
+                (e.data() as dynamic)['endTime']?.toString() ?? 'null',
+                (e.data() as dynamic)['lapang'].toString() ?? 'null',
+                (e.data() as dynamic)['status'] ?? 'N/A',
+                e.id,
+              ),
+            );
+          }).toList(),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    if (query.isEmpty) {
+      return Center(child: Text('Please enter a search query'));
+    }
+
+    return FutureBuilder(
+      future: booking
+          .where('lapang', isGreaterThanOrEqualTo: query)
+          .where('lapang', isLessThan: query + 'z')
+          .get(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
+
+        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          return Center(child: Text('No suggestions'));
+        }
+
+        return ListView(
+          children: snapshot.data!.docs.map((e) {
+            return GestureDetector(
+              child: ItemCard(
+                (e.data() as dynamic)['startTime']?.toString() ?? 'null',
+                (e.data() as dynamic)['endTime']?.toString() ?? 'null',
+                (e.data() as dynamic)['lapang'].toString() ?? 'null',
+                (e.data() as dynamic)['status'] ?? 'N/A',
+                e.id,
+              ),
+            );
+          }).toList(),
+        );
+      },
     );
   }
 }

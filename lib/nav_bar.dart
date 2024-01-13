@@ -109,13 +109,6 @@ class _NavbarDemoState extends State<NavbarDemo> {
               child: Text("Settings"),
             ),
             ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text('Edit Profile'),
-              onTap: () {
-                // Handle navigation to the home page
-              },
-            ),
-            ListTile(
               leading: Icon(Icons.logout),
               title: Text('Logout Account'),
               onTap: () {
@@ -144,10 +137,6 @@ class _NavbarDemoState extends State<NavbarDemo> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.badge),
             label: 'Borrow',
           ),
@@ -163,8 +152,6 @@ class _NavbarDemoState extends State<NavbarDemo> {
           useMaterial3: true,
         );
       case 1:
-      // return Search();
-      case 2:
         return TabelPeminjaman();
       default:
         return Container();
