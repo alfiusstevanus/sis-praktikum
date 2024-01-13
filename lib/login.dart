@@ -73,11 +73,19 @@ class _LoginPageState extends State<LoginScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: 25),
+                    SizedBox(height: 15),
                     Form(
                       key: _formKey,
                       child: Column(
                         children: <Widget>[
+                          Text(
+                            "Login Account",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                            ),
+                          ),
+                          SizedBox(height: 25),
                           TextFormField(
                             controller: _emailTextController,
                             focusNode: _focusEmail,
