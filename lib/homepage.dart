@@ -70,13 +70,6 @@ class _HomePageState extends State<HomePage> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          Text(
-            'Search',
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.normal,
-            ),
-          ),
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
